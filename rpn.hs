@@ -17,7 +17,7 @@ runCalc xs = do
         Just Quit -> return ()
         Just y    -> runCalc $ do
             stack <- xs
-            foldingFunction' stack y
+            calcRPN stack y
 
 parseInput :: String -> Maybe (Item Double)
 parseInput "*"  = return $ Operator (*)
@@ -32,9 +32,9 @@ parseInput str    = case readMaybe str of
 toLowers :: String -> String
 toLowers = map toLower
 
-foldingFunction' :: [Double] -> (Item Double) -> Maybe [Double]
-foldingFunction' (x:y:ys) (Operator op) = return $ (op y x) : ys
-foldingFunction' xs (Number x) = return (x:xs)
+calcRPN :: [Double] -> (Item Double) -> Maybe [Double]
+calcRPN (x:y:ys) (Operator op) = return $ (op y x) : ys
+calcRPN xs (Number x) = return (x:xs)
 
 readMaybe :: (Read a) => String -> Maybe a
 readMaybe st = case reads st of [(x, "")] -> Just x
