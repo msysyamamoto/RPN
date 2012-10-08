@@ -13,8 +13,8 @@ runCalc xs = do
     print xs
     line <- getLine
     case parseInput line of
-        Nothing   -> runCalc xs
-        Just Quit -> return () 
+        Nothing   -> (putStrLn "bad input" >> runCalc xs)
+        Just Quit -> return ()
         Just y    -> runCalc $ do
             stack <- xs
             foldingFunction' stack y
@@ -26,14 +26,14 @@ parseInput "-"  = return $ Operator (-)
 parseInput "/"  = return $ Operator (/)
 parseInput "quit" = return Quit
 parseInput str    = case readMaybe str of
-                        Just x  -> return $ Number (x ::Double)
+                        Just x  -> return $ Number x
                         Nothing -> Nothing
 
 toLowers :: String -> String
 toLowers = map toLower
 
 foldingFunction' :: [Double] -> (Item Double) -> Maybe [Double]
-foldingFunction' (x:y:ys) (Operator op) = return $ (op y x) : ys 
+foldingFunction' (x:y:ys) (Operator op) = return $ (op y x) : ys
 foldingFunction' xs (Number x) = return (x:xs)
 
 readMaybe :: (Read a) => String -> Maybe a
