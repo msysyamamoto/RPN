@@ -34,7 +34,9 @@ toLowers = map toLower
 
 calcRPN :: [Double] -> (Item Double) -> Maybe [Double]
 calcRPN (x:y:ys) (Operator op) = return $ (op y x) : ys
-calcRPN xs (Number x) = return (x:xs)
+calcRPN xs (Operator _)        = return xs
+calcRPN xs (Number x)          = return (x:xs)
+calcRPN _  _                   = undefined
 
 readMaybe :: (Read a) => String -> Maybe a
 readMaybe st = case reads st of [(x, "")] -> Just x
