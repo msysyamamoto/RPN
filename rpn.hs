@@ -10,11 +10,14 @@ runCalc :: Maybe [Double] -> IO ()
 runCalc xs = do
     print xs
     line <- getLine
-    if toLowers line == "quit"
+    if isQuit line
         then return ()
         else runCalc $ do
             stack <- xs
             foldingFunction stack line
+
+isQuit :: String -> Bool
+isQuit = ("quit" ==) . toLowers
 
 toLowers :: String -> String
 toLowers = map toLower
