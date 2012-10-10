@@ -1,7 +1,7 @@
 import Control.Monad
 import Data.Char
 
-data Item a = Number Double | Operator (a -> a -> a)| Quit
+data Item = Number Double | Operator (Double -> Double -> Double)| Quit
 
 main :: IO ()
 main = do
@@ -23,7 +23,7 @@ printStack :: Maybe [Double] -> IO ()
 printStack (Just xs) = print xs
 printStack Nothing   = undefined
 
-parseInput :: String -> Maybe (Item Double)
+parseInput :: String -> Maybe Item
 parseInput "*"  = return $ Operator (*)
 parseInput "+"  = return $ Operator (+)
 parseInput "-"  = return $ Operator (-)
@@ -36,7 +36,7 @@ parseInput str    = case readMaybe str of
 toLowers :: String -> String
 toLowers = map toLower
 
-calcRPN :: [Double] -> (Item Double) -> Maybe [Double]
+calcRPN :: [Double] -> Item -> Maybe [Double]
 calcRPN (x:y:ys) (Operator op) = return $ (op y x) : ys
 calcRPN xs (Operator _)        = return xs
 calcRPN xs (Number x)          = return (x:xs)
