@@ -24,10 +24,10 @@ printStack (Just xs) = print xs
 printStack Nothing   = undefined
 
 parseInput :: String -> Maybe Item
-parseInput "*"  = return $ Operator (*)
-parseInput "+"  = return $ Operator (+)
-parseInput "-"  = return $ Operator (-)
-parseInput "/"  = return $ Operator (/)
+parseInput "*"    = return $ Operator (*)
+parseInput "+"    = return $ Operator (+)
+parseInput "-"    = return $ Operator (-)
+parseInput "/"    = return $ Operator (/)
 parseInput "quit" = return Quit
 parseInput str    = case readMaybe str of
                         Just x  -> return $ Number x
